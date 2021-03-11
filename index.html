@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myAnimes">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyAnimes | Profile V1.0</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="src/css/style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/b2ed5b16d9.js" crossorigin="anonymous"></script>
+
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+</head>
+<body ng-controller="mainPage" class="p-3 mb-2 bg-dark text-white">
+    <div class="container" ng-show="!hasSearch">
+        <div class="row mb-2">
+            <h1 class="text-monospace text-uppercase mx-auto" >MyAnimes</h1>
+        </div>
+        <div class="row mx-auto">
+            <img ng-src="src/img/logo.png" class="img-fluid rounded mx-auto d-block">
+        </div>
+        <div class="row input-group col-sm-8 mx-auto">
+            <input type="text" class="form-control" ng-model="username" placeholder="Username">
+            <div class="input-group-append">
+              <button class="btn btn-outline-light" type="button" ng-click="searchProfile(username)">Buscar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile -->
+    <div class="container" ng-show="hasSearch">
+        <div class="row">
+            <div class="col">
+                <div class="glass">
+                    <div class="profileHeader">
+                        <a class="btn btn-dark btn-absolute" ng-click="refreshPage()" role="button"><i class="fas fa-arrow-left mr-3"></i>Back</a>
+                        <img class="d-flex mx-auto avatar mt-2" ng-src="{{dados.data.image_url}}">
+                        <p class="text-center font-weight-normal">{{dados.data.username}}</p>
+                    </div>
+
+                    <!-- Anime Stats -->
+                    <div class="stats container mb-2">
+                        <h2 class="ml-3">Anime Stats</h2>
+                        <div class="card-group">
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title">Time Watched</h5>
+                                <p class="card-text">{{dados.data.anime_stats.days_watched}} Days</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title">Episodes Watched</h5>
+                                <p class="card-text">{{dados.data.anime_stats.episodes_watched}} Episodes</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title">Total Anime</h5>
+                                <p class="card-text">{{dados.data.anime_stats.total_entries}} Animes</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                                <div class="card-body">
+                                  <h5 class="card-title">Mean Score</h5>
+                                  <p class="card-text">{{dados.data.anime_stats.mean_score}}</p>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="card-group mt-2">
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title text-success"><i class="fas fa-tv mr-3"></i>Watching</h5>
+                                <p class="card-text">{{dados.data.anime_stats.watching}}</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title text-primary"><i class="fas fa-check mr-3"></i>Completed</h5>
+                                <p class="card-text">{{dados.data.anime_stats.completed}}</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title text-warning"><i class="fas fa-spinner mr-3"></i>On-Hold</h5>
+                                <p class="card-text">{{dados.data.anime_stats.on_hold}}</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                                <div class="card-body">
+                                  <h5 class="card-title text-danger"><i class="far fa-stop-circle mr-3"></i>Dropped</h5>
+                                  <p class="card-text">{{dados.data.anime_stats.dropped}}</p>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Manga Stats -->
+                    <div class="stats container mb-2">
+                        <h2 class="ml-3">Manga Stats</h2>
+                        <div class="card-group">
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title">Time Watched</h5>
+                                <p class="card-text">{{dados.data.manga_stats.days_read}} Days</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title">Volumes Read</h5>
+                                <p class="card-text">{{dados.data.manga_stats.volumes_read}}</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title">Total Manga</h5>
+                                <p class="card-text">{{dados.data.manga_stats.total_entries}} Mangas</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                                <div class="card-body">
+                                  <h5 class="card-title">Mean Score</h5>
+                                  <p class="card-text">{{dados.data.manga_stats.mean_score}}</p>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="card-group mt-2">
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title text-success"><i class="fas fa-book-open mr-3"></i>Reading</h5>
+                                <p class="card-text">{{dados.data.manga_stats.reading}}</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title text-primary"><i class="fas fa-check mr-3"></i>Completed</h5>
+                                <p class="card-text">{{dados.data.manga_stats.completed}}</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                              <div class="card-body">
+                                <h5 class="card-title text-warning"><i class="fas fa-spinner mr-3"></i>On-Hold</h5>
+                                <p class="card-text">{{dados.data.manga_stats.on_hold}}</p>
+                              </div>
+                            </div>
+                            <div class="card bg-dark">
+                                <div class="card-body">
+                                  <h5 class="card-title text-danger"><i class="far fa-stop-circle mr-3"></i>Dropped</h5>
+                                  <p class="card-text">{{dados.data.manga_stats.dropped}}</p>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+
+                    <!-- Favorites -->
+                    <div class="favorites container mb-2">
+                        <h2 class="ml-3">Favorites</h2>
+                        <div class="card-group">
+
+                            <!-- Favorites Animes -->
+                            <div class="card bg-dark">
+                                <h4 class="ml-3 mt-3 text-warning"><i class="fas fa-tv mr-3"></i>Animes</h4>
+                                <div class="card-body" ng-repeat="favoriteAnime in favoritesAnimes">
+                                    <h6 class="card-title">{{favoriteAnime.name}}</h6>
+                                    <a ng-href="{{favoriteAnime.url}}" target="__blank">
+                                        <img ng-src="{{favoriteAnime.image_url}}" class="card-img-top">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Favorites Mangas -->
+                            <div class="card bg-dark">
+                                <h4 class="ml-3 mt-3 text-warning"><i class="fas fa-book-open mr-3"></i>Mangas</h4>
+                                <div class="card-body" ng-repeat="favoriteManga in favoritesMangas">
+                                    <h6 class="card-title">{{favoriteManga.name}}</h6>
+                                    <a ng-href="{{favoriteManga.url}}" target="__blank">
+                                        <img ng-src="{{favoriteManga.image_url}}" class="card-img-top">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Favorites Characters -->
+                            <div class="card bg-dark">
+                                <h4 class="ml-3 mt-3 text-warning"><i class="fas fa-mask mr-3"></i>Characters</h4>
+                                <div class="card-body" ng-repeat="favoriteCharacter in favoritesCharacters">
+                                    <h6 class="card-title">{{favoriteCharacter.name}}</h6>
+                                    <a ng-href="{{favoriteCharacter.url}}" target="__blank">
+                                        <img ng-src="{{favoriteCharacter.image_url}}" class="card-img-top">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Favorites People -->
+                            <div class="card bg-dark">
+                                <h4 class="ml-3 mt-3 text-warning"><i class="fas fa-user mr-3"></i>People</h4>
+                                <div class="card-body" ng-repeat="favoritePeople in favoritesPeoples">
+                                    <h6 class="card-title">{{favoritePeople.name}}</h6>
+                                    <a ng-href="{{favoritePeople.url}}" target="__blank">
+                                        <img ng-src="{{favoritePeople.image_url}}" class="card-img-top">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/js/app.js"></script>
+</body>
+</html>
